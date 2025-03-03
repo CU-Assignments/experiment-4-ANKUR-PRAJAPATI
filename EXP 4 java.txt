@@ -1,0 +1,73 @@
+import java.util.*;
+
+class Card {
+    char symbol;
+    int number;
+
+    // Constructor
+    public Card(char symbol, int number) {
+        this.symbol = symbol;
+        this.number = number;
+    }
+
+    // Getter methods
+    public char getSymbol() {
+        return symbol;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+}
+
+public class CardGame {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Map to store cards grouped by symbol
+        Map<Character, List<Card>> cardMap = new HashMap<>();
+
+        // Get number of cards from user
+        System.out.print("Enter Number of Cards: ");
+        int n = scanner.nextInt();
+
+        // Read card details
+        for (int i = 1; i <= n; i++) {
+            System.out.println("Enter card " + i + ":");
+            char symbol = scanner.next().charAt(0);  // Read symbol
+            int number = scanner.nextInt();  // Read number
+
+            // Add card to map
+            cardMap.putIfAbsent(symbol, new ArrayList<>());
+            cardMap.get(symbol).add(new Card(symbol, number));
+        }
+
+        // Sort distinct symbols alphabetically
+        List<Character> sortedSymbols = new ArrayList<>(cardMap.keySet());
+        Collections.sort(sortedSymbols);
+
+        // Print distinct symbols
+        System.out.println("Distinct Symbols are:");
+        for (char symbol : sortedSymbols) {
+            System.out.print(symbol + " ");
+        }
+        System.out.println();
+
+        // Print cards for each symbol
+        for (char symbol : sortedSymbols) {
+            List<Card> cards = cardMap.get(symbol);
+            System.out.println("Cards in " + symbol + " Symbol");
+
+            int sum = 0;
+            for (Card card : cards) {
+                System.out.println(card.getSymbol() + " " + card.getNumber());
+                sum += card.getNumber();
+            }
+
+            System.out.println("Number of cards : " + cards.size());
+            System.out.println("Sum of Numbers : " + sum);
+        }
+
+        scanner.close();
+    }
+}
